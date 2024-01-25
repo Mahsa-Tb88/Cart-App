@@ -1,0 +1,73 @@
+.app {
+  background-color: #f3ecf3;
+  height: 100vh;
+
+  .header {
+    box-shadow: 0 1px 2px 1px #0003;
+    z-index: 10;
+    background-color: #fff;
+    .navbar {
+      .active {
+        //   color: rgb(255, 127, 157);
+      }
+    }
+    .header-link:hover {
+      background-color: rgb(207, 221, 252);
+      border-radius: 5px;
+    }
+    .item {
+      position: absolute;
+      top: -8px;
+      right: 0;
+      background-color: rgb(243, 113, 113);
+      color: #fff;
+      border-radius: 50%;
+      width: 15px;
+      height: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 10px;
+    }
+    .icon-cart:hover {
+      background-color: rgb(71, 71, 201);
+      color: #fff;
+      border-radius: 50%;
+    }
+  }
+
+  .filter {
+    .search {
+      border: 1px solid #c0c0c0;
+      padding: 5px 7px;
+      border-radius: 5px;
+      width: 200px;
+    }
+
+    .selector {
+      border: 1px solid #c0c0c0;
+      width: 200px;
+      padding: 5px 0;
+      border-radius: 5px;
+    }
+  }
+
+  .card {
+    width: 18rem;
+    padding: 30px 0 0 0;
+    // max-width: 300px;
+    // background-color: #fff;
+    // padding: 40px 0px;
+    // border-radius: 5px;
+    // margin: 50px 0;
+    .card-img {
+      width: 200px;
+      margin: 0 auto;
+    }
+    .cart-text {
+      margin: 20px 0;
+      border: 1px solid #0d6efd;
+      border-radius: 5px;
+    }
+  }
+}

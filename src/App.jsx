@@ -1,20 +1,37 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 import { IoCartSharp } from "react-icons/io5";
 export default function App() {
   return (
-    <div className="container">
-      <header className="d-flex justify-content-between align-items-center ">
-        <div className="d-flex justify-content-center align-items-center">
-          <NavLink>Home</NavLink>
-          <NavLink>Shop</NavLink>
-          <NavLink>About</NavLink>
+    <div className="app">
+      <header className="header">
+        <div className="d-flex justify-content-between align-items-center  container">
+          <div className="d-flex justify-content-center align-items-center py-3 navbar">
+            <NavLink
+              to="/"
+              className="list-unstyled p-2 mx-4 text-decoration-none header-link"
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/shop"
+              className="list-unstyled p-2 mx-4 text-decoration-none header-link"
+            >
+              Shop
+            </NavLink>
+            <NavLink className="list-unstyled p-2 mx-4 text-decoration-none header-link">
+              About
+            </NavLink>
+          </div>
+          <Link className="position-relative icon-cart">
+            <IoCartSharp className="fs-3" />
+            <span className="item">2</span>
+          </Link>
         </div>
-        <Link>
-          <IoCartSharp />
-          <span>2</span>
-        </Link>
       </header>
+      <div className=" text-center ">
+        <Outlet />
+      </div>
     </div>
   );
 }

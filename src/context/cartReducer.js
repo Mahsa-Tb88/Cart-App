@@ -1,7 +1,11 @@
 export function cartReducer(state, action) {
   const { type, payload } = action;
   switch (type) {
-    case "cart":
-      return state;
+    case "setIsLoading":
+      return { ...state, isLoading: payload };
+    case "setCategories":
+      return { ...state, categories: payload };
+    case "setLoadingError":
+      return { ...state, loadingError: payload };
   }
 }
