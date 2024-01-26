@@ -1,11 +1,11 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { cartReducer } from "./cartReducer";
-import { getAllCategories } from "../utils/api";
+import { getAllCategories, getProducts } from "../utils/api";
+import { useSearchParams } from "react-router-dom";
 
 const CartContext = createContext();
 
 function CartContextProvider({ children }) {
-  console.log("cart context...");
   useEffect(() => {
     const timeOut = setTimeout(fetchCategories, 20);
     return () => clearTimeout(timeOut);
@@ -25,12 +25,18 @@ function CartContextProvider({ children }) {
     dispatch({ type: "setIsLoading", payload: false });
   }
   const [state, dispatch] = useReducer(cartReducer, {
-    getAllProducts: [],
+    products: [],
+    totalProduct: {
+      filtered: 12,
+      all: 35,
+    },
+    currentPage: 1,
     categories: [],
     isLoading: false,
     loadingError: false,
+    search: "",
+    category: "",
   });
-  console.log(state.categories);
 
   return (
     <CartContext.Provider value={{ state, dispatch }}>

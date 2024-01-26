@@ -1,7 +1,4 @@
 .app {
-  background-color: #f3ecf3;
-  height: 100vh;
-
   .header {
     box-shadow: 0 1px 2px 1px #0003;
     z-index: 10;
@@ -53,21 +50,23 @@
   }
 
   .card {
-    width: 18rem;
+    box-shadow: 0 1px 3px #0003;
     padding: 30px 0 0 0;
-    // max-width: 300px;
-    // background-color: #fff;
-    // padding: 40px 0px;
-    // border-radius: 5px;
-    // margin: 50px 0;
-    .card-img {
-      width: 200px;
-      margin: 0 auto;
+    height: 550px;
+    cursor: pointer;
+  }
+  .paginate {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .active {
+      background-color: #273d5f;
+      color: #fff;
     }
-    .cart-text {
-      margin: 20px 0;
-      border: 1px solid #0d6efd;
-      border-radius: 5px;
+    .page-link:hover {
+      background-color: #37537d;
+      color: #fff;
+      cursor: pointer;
     }
   }
 }

@@ -7,5 +7,16 @@ export function cartReducer(state, action) {
       return { ...state, categories: payload };
     case "setLoadingError":
       return { ...state, loadingError: payload };
+    case "setProducts":
+      return {
+        ...state,
+        products: payload.products,
+        totalProduct: payload.totalProduct,
+        currentPage: 1,
+      };
+    case "setCurrentPage":
+      return { ...state, currentPage: payload };
+    case "search":
+      return { ...state, search: payload };
   }
 }

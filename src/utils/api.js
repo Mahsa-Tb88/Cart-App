@@ -1,7 +1,7 @@
 const successRate = 0.94;
 
 async function getAllProducts() {
-  await wait();
+  await wait(1000);
   try {
     return JSON.parse(localStorage.products);
   } catch (e) {
@@ -20,10 +20,11 @@ function connectionError() {
 
 export async function getProducts(
   page = 1,
-  limit = 10,
+  limit = 6,
   search = "",
   category = ""
 ) {
+  console.log(search);
   const products = await getAllProducts();
   if (Math.random() > successRate) {
     return connectionError();
@@ -39,10 +40,7 @@ export async function getProducts(
   );
 
   filteredProducts = filteredProducts.filter((p) => {
-    return (
-      p.title.toLowerCase().includes(search) ||
-      p.description.toLowerCase().includes(search)
-    );
+    return p.title.includes(search);
   });
 
   const start = (page - 1) * limit;
