@@ -12,7 +12,6 @@ export function cartReducer(state, action) {
         ...state,
         products: payload.products,
         totalProduct: payload.totalProduct,
-        currentPage: 1,
       };
     case "setCurrentPage":
       return { ...state, currentPage: payload };

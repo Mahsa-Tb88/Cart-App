@@ -27,8 +27,8 @@ function CartContextProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, {
     products: [],
     totalProduct: {
-      filtered: 12,
-      all: 35,
+      filtered: null,
+      all: null,
     },
     currentPage: 1,
     categories: [],

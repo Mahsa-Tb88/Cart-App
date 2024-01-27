@@ -24,7 +24,6 @@ export async function getProducts(
   search = "",
   category = ""
 ) {
-  console.log(search);
   const products = await getAllProducts();
   if (Math.random() > successRate) {
     return connectionError();

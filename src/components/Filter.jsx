@@ -6,21 +6,44 @@ import { useSearchParams } from "react-router-dom";
 export default function Filter() {
   const { state, dispatch } = useCartContext();
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const [firstLoading, setFirstLoading] = useState(true);
   useEffect(() => {
+    if (firstLoading) {
+      setFirstLoading(false);
+      return;
+    }
     const timeOut = setTimeout(fetchProducts, 1000);
     return () => clearTimeout(timeOut);
   }, [state.search]);
 
+  useEffect(() => {
+    dispatch({ type: "search", payload: searchParams.get("q") });
+  }, []);
+
+  function searchhandler(value) {
+    dispatch({ type: "search", payload: value });
+    setSearchParams({ q: value });
+  }
   async function fetchProducts() {
+    console.log("filter");
+
     dispatch({ type: "setIsLoading", payload: true });
-    const result = await getProducts(1, 12, state.search, state.category);
+    const result = await getProducts(
+      searchParams.get("page") || 1,
+      6,
+      state.search,
+      state.category
+    );
+
     if (result.success) {
       dispatch({
         type: "setProducts",
         payload: { products: result.body, totalProduct: result.total },
       });
-      setSearchParams({ page: 1 });
+      dispatch({
+        type: "setCurrentPage",
+        payload: searchParams.get("page") || 1,
+      });
       dispatch({ type: "setLoadingError", payload: false });
     } else {
       dispatch({
@@ -37,9 +60,8 @@ export default function Filter() {
         <input
           className="search"
           placeholder="search..."
-          onChange={(e) =>
-            dispatch({ type: "search", payload: e.target.value })
-          }
+          onChange={(e) => searchhandler(e.target.value)}
+          value={state.search || ""}
         />
       </div>
       <select className="selector">

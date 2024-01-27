@@ -15,11 +15,15 @@ export default function App() {
             </NavLink>
             <NavLink
               to="/shop"
+              onClick={() => dispatchEvent({ type: "search", payload: "" })}
               className="list-unstyled p-2 mx-4 text-decoration-none header-link"
             >
               Shop
             </NavLink>
-            <NavLink className="list-unstyled p-2 mx-4 text-decoration-none header-link">
+            <NavLink
+              to="/about"
+              className="list-unstyled p-2 mx-4 text-decoration-none header-link"
+            >
               About
             </NavLink>
           </div>

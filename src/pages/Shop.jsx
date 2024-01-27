@@ -9,6 +9,7 @@ import { getProducts } from "../utils/api";
 
 export default function Shop() {
   const { state, dispatch } = useCartContext();
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
@@ -21,13 +22,16 @@ export default function Shop() {
     const result = await getProducts(
       searchParams.get("page") || 1,
       6,
-      state.search,
+      searchParams.get("q") || "",
       state.category
     );
     if (result.success) {
       dispatch({
         type: "setProducts",
-        payload: { products: result.body, totalProduct: result.total },
+        payload: {
+          products: result.body,
+          totalProduct: result.total,
+        },
       });
       dispatch({ type: "setLoadingError", payload: false });
     } else {

@@ -20,13 +20,16 @@ export default function Pagination() {
   }, []);
 
   let pages = [];
-
   function handlePage(i) {
     dispatch({ type: "setCurrentPage", payload: i });
   }
   for (let i = 1; i <= totalPage; i++) {
     pages.push(
-      <NavLink className={"page-item"} key={i} to={`/shop?page=${i}`}>
+      <NavLink
+        className={"page-item"}
+        key={i}
+        to={`/shop?page=${i}` + (state.search ? "&q=" + state.search : "")}
+      >
         <span
           className={"page-link " + (state.currentPage == i ? "active" : "")}
           onClick={() => handlePage(i)}
@@ -59,3 +62,7 @@ export default function Pagination() {
     </div>
   );
 }
+
+// + state.search
+//             ? "&q=" + setSearchParams({ q: state.search })
+//             : ""
