@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Filter from "../components/Filter";
 import { useCartContext } from "../context/CartContext";
 import Pagination from "../components/Pagination";
@@ -8,23 +8,37 @@ import { useSearchParams } from "react-router-dom";
 import { getProducts } from "../utils/api";
 
 export default function Shop() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get("q") || "");
+  const [category, setCategory] = useState(searchParams.get("category") || "");
+  const [currentPage, setCurrentPage] = useState(1);
   const { state, dispatch } = useCartContext();
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
   useEffect(() => {
+    if (searchParams.get("q")) {
+      setSearch(searchParams.get("q"));
+    }
+    if (searchParams.get("category")) {
+      setCategory(searchParams.get("category"));
+    }
+
     const timeOut = setTimeout(fetchProducts, 20);
     return () => clearTimeout(timeOut);
   }, [searchParams.get("page")]);
 
   async function fetchProducts() {
+    searchParams.get("page")
+      ? setCurrentPage(searchParams.get("page"))
+      : setCurrentPage(1);
+
     dispatch({ type: "setIsLoading", payload: true });
     const result = await getProducts(
       searchParams.get("page") || 1,
       6,
-      searchParams.get("q") || "",
-      state.category
+      search || "",
+      category || ""
     );
+    console.log(result);
     if (result.success) {
       dispatch({
         type: "setProducts",
@@ -44,21 +58,39 @@ export default function Shop() {
   }
   return (
     <div className="container">
-      <Filter />
+      <Filter
+        search={search}
+        setSearch={setSearch}
+        category={category}
+        setCategory={setCategory}
+      />
       {state.isLoading ? (
         <Loading />
       ) : state.LoadingError ? (
         <LoadingError />
       ) : (
         <div className="row">
-          {state.products.map((product) => (
-            <div className="col-3" key={product.id}>
-              <Cart key={product.id} product={product} />
-            </div>
-          ))}
+          {state.products.length == 0 ? (
+            <p className="fs-5 py-5">There is not any product</p>
+          ) : (
+            state.products.map((product) => (
+              <div className="col-3" key={product.id}>
+                <Cart key={product.id} product={product} />
+              </div>
+            ))
+          )}
         </div>
       )}
-      <Pagination />
+      {!state.products.length == 0 && state.totalProduct.all > 6 ? (
+        <Pagination
+          search={search}
+          category={category}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 }

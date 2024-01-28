@@ -3,35 +3,41 @@ import { FaAngleDoubleLeft } from "react-icons/fa";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import { useCartContext } from "../context/CartContext";
 import { NavLink, useSearchParams } from "react-router-dom";
-export default function Pagination() {
+export default function Pagination({
+  search,
+  category,
+  currentPage,
+  setCurrentPage,
+}) {
   const { state, dispatch } = useCartContext();
   const totalPage = Math.ceil(state.totalProduct.all / 6);
   const [searchParams, setSearchParams] = useSearchParams();
-  const prevClasses = [state.currentPage == 1 ? "disabled" : ""].join(" ");
-  const nextClasses = [state.currentPage == totalPage ? "disabled" : ""].join(
-    " "
-  );
+  const prevClasses = [currentPage == 1 ? "disabled" : ""].join(" ");
+  const nextClasses = [currentPage == totalPage ? "disabled" : ""].join(" ");
 
   useEffect(() => {
-    dispatch({
-      type: "setCurrentPage",
-      payload: searchParams.get("page") || 1,
-    });
+    searchParams.get("page")
+      ? setCurrentPage(searchParams.get("page"))
+      : setCurrentPage(1);
   }, []);
 
   let pages = [];
   function handlePage(i) {
-    dispatch({ type: "setCurrentPage", payload: i });
+    setCurrentPage(i);
   }
   for (let i = 1; i <= totalPage; i++) {
     pages.push(
       <NavLink
         className={"page-item"}
         key={i}
-        to={`/shop?page=${i}` + (state.search ? "&q=" + state.search : "")}
+        to={
+          `/shop?page=${i}` +
+          (search ? "&q=" + search : "") +
+          (category ? "&category=" + category : "")
+        }
       >
         <span
-          className={"page-link " + (state.currentPage == i ? "active" : "")}
+          className={"page-link " + (currentPage == i ? "active" : "")}
           onClick={() => handlePage(i)}
         >
           {i}
@@ -62,7 +68,3 @@ export default function Pagination() {
     </div>
   );
 }
-
-// + state.search
-//             ? "&q=" + setSearchParams({ q: state.search })
-//             : ""

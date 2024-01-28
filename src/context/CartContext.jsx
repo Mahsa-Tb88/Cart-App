@@ -30,7 +30,6 @@ function CartContextProvider({ children }) {
       filtered: null,
       all: null,
     },
-    currentPage: 1,
     categories: [],
     isLoading: false,
     loadingError: false,

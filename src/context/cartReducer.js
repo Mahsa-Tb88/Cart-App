@@ -17,5 +17,7 @@ export function cartReducer(state, action) {
       return { ...state, currentPage: payload };
     case "search":
       return { ...state, search: payload };
+    case "setCategory":
+      return { ...state, category: payload };
   }
 }

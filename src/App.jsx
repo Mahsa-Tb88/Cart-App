@@ -15,7 +15,6 @@ export default function App() {
             </NavLink>
             <NavLink
               to="/shop"
-              onClick={() => dispatchEvent({ type: "search", payload: "" })}
               className="list-unstyled p-2 mx-4 text-decoration-none header-link"
             >
               Shop

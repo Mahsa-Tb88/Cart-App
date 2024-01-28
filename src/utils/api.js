@@ -41,7 +41,6 @@ export async function getProducts(
   filteredProducts = filteredProducts.filter((p) => {
     return p.title.includes(search);
   });
-
   const start = (page - 1) * limit;
   const result = filteredProducts.slice(start, limit + start);
 
