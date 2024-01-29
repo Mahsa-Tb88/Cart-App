@@ -8,6 +8,7 @@ import { useSearchParams } from "react-router-dom";
 import { getProducts } from "../utils/api";
 
 export default function Shop() {
+  console.log("shop");
   const [searchParams, setSearchParams] = useSearchParams();
   const [search, setSearch] = useState(searchParams.get("q") || "");
   const [category, setCategory] = useState(searchParams.get("category") || "");

@@ -107,21 +107,6 @@ export default function Filter({
         <FaTimes className="close-btn" onClick={() => searchHandler("")} />
       </div>
 
-      {state.isLoading ? (
-        <Loading />
-      ) : state.loadingError ? (
-        <LoadingError reload={fetchGetCategories} />
-      ) : (
-        <SelectCategory category={category} categoryHandler={categoryHandler} />
-      )}
-    </div>
-  );
-}
-
-function SelectCategory({ category, categoryHandler }) {
-  const { state, dispatch } = useCartContext();
-  return (
-    <div>
       <select
         className="selector"
         onChange={(e) => categoryHandler(e.target.value)}
