@@ -1,4 +1,4 @@
-const successRate = 0.94;
+const successRate = 0.44;
 
 async function getAllProducts() {
   await wait(1000);

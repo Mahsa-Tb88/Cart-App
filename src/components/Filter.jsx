@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useCartContext } from "../context/CartContext";
-import { getProducts } from "../utils/api";
+import { getAllCategories, getProducts } from "../utils/api";
 import { useSearchParams } from "react-router-dom";
+import { FaTimes } from "react-icons/fa";
+import Loading from "./Loading";
+import LoadingError from "./LoadingError";
 
-export default function Filter({ search, setSearch, category, setCategory }) {
+export default function Filter({
+  search,
+  setSearch,
+  category,
+  setCategory,
+  setTotalProduct,
+}) {
   const { state, dispatch } = useCartContext();
   const [searchParams, setSearchParams] = useSearchParams();
   const [firstLoading, setFirstLoading] = useState(true);
@@ -18,7 +27,6 @@ export default function Filter({ search, setSearch, category, setCategory }) {
   }, [search, category]);
 
   async function fetchProducts() {
-    console.log("filter", search, category);
     dispatch({ type: "setIsLoading", payload: true });
     const result = await getProducts(
       searchParams.get("page") || 1,
@@ -28,12 +36,11 @@ export default function Filter({ search, setSearch, category, setCategory }) {
     );
 
     if (result.success) {
-      console.log(result);
       dispatch({
         type: "setProducts",
-        payload: { products: result.body, totalProduct: result.total },
+        payload: result.body,
       });
-
+      setTotalProduct(result.total);
       dispatch({ type: "setLoadingError", payload: false });
     } else {
       dispatch({
@@ -46,30 +53,75 @@ export default function Filter({ search, setSearch, category, setCategory }) {
 
   function searchHandler(value) {
     setSearch(value);
-    setSearchParams({
-      q: value,
-      category: category ? category : "",
-    });
+    if (value == "") {
+      category ? setSearchParams({ category: category }) : setSearchParams({});
+    } else {
+      !category
+        ? setSearchParams({ q: value })
+        : setSearchParams({
+            q: value,
+            category: category,
+          });
+    }
   }
 
   function categoryHandler(value) {
+    console.log(value);
     if (value == "all") {
       value = "";
     }
+    console.log("value...", value);
     setCategory(value);
-    setSearchParams({ q: search ? search : "", category: value });
-  }
 
+    if (value == "") {
+      search ? setSearchParams({ q: search }) : setSearchParams({});
+    } else {
+      !search
+        ? setSearchParams({ category: value })
+        : setSearchParams({ q: search, category: value });
+    }
+  }
+  async function fetchGetCategories() {
+    dispatch({ type: "setIsLoading", payload: true });
+    const result = await getAllCategories();
+    if (result.success) {
+      dispatch({ type: "setCategories", payload: result.body });
+      dispatch({ type: "setLoadingError", payload: false });
+    } else {
+      dispatch({
+        type: "setLoadingError",
+        payload: { message: result.message, code: result.code },
+      });
+    }
+    dispatch({ type: "setIsLoading", payload: false });
+  }
   return (
     <div className="d-flex justify-content-around align-items-center pt-5 filter">
-      <div>
+      <div className="border border-1 px-1 rounded-2">
         <input
-          className="search"
+          className="search border-0 input border-secondary"
           placeholder="search..."
           onChange={(e) => searchHandler(e.target.value)}
           value={search}
         />
+        <FaTimes className="close-btn" onClick={() => searchHandler("")} />
       </div>
+
+      {state.isLoading ? (
+        <Loading />
+      ) : state.loadingError ? (
+        <LoadingError reload={fetchGetCategories} />
+      ) : (
+        <SelectCategory category={category} categoryHandler={categoryHandler} />
+      )}
+    </div>
+  );
+}
+
+function SelectCategory({ category, categoryHandler }) {
+  const { state, dispatch } = useCartContext();
+  return (
+    <div>
       <select
         className="selector"
         onChange={(e) => categoryHandler(e.target.value)}

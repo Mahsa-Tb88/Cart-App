@@ -12,6 +12,10 @@ export default function Shop() {
   const [search, setSearch] = useState(searchParams.get("q") || "");
   const [category, setCategory] = useState(searchParams.get("category") || "");
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalProduct, setTotalProduct] = useState({
+    filtered: null,
+    all: null,
+  });
   const { state, dispatch } = useCartContext();
 
   useEffect(() => {
@@ -30,7 +34,6 @@ export default function Shop() {
     searchParams.get("page")
       ? setCurrentPage(searchParams.get("page"))
       : setCurrentPage(1);
-
     dispatch({ type: "setIsLoading", payload: true });
     const result = await getProducts(
       searchParams.get("page") || 1,
@@ -38,15 +41,9 @@ export default function Shop() {
       search || "",
       category || ""
     );
-    console.log(result);
     if (result.success) {
-      dispatch({
-        type: "setProducts",
-        payload: {
-          products: result.body,
-          totalProduct: result.total,
-        },
-      });
+      dispatch({ type: "setProducts", payload: result.body });
+      setTotalProduct(result.total);
       dispatch({ type: "setLoadingError", payload: false });
     } else {
       dispatch({
@@ -56,6 +53,7 @@ export default function Shop() {
     }
     dispatch({ type: "setIsLoading", payload: false });
   }
+
   return (
     <div className="container">
       <Filter
@@ -63,11 +61,12 @@ export default function Shop() {
         setSearch={setSearch}
         category={category}
         setCategory={setCategory}
+        setTotalProduct={setTotalProduct}
       />
       {state.isLoading ? (
         <Loading />
-      ) : state.LoadingError ? (
-        <LoadingError />
+      ) : state.loadingError ? (
+        <LoadingError reload={fetchProducts} />
       ) : (
         <div className="row">
           {state.products.length == 0 ? (
@@ -81,12 +80,13 @@ export default function Shop() {
           )}
         </div>
       )}
-      {!state.products.length == 0 && state.totalProduct.all > 6 ? (
+      {!state.products.length == 0 && totalProduct.all > 6 ? (
         <Pagination
           search={search}
           category={category}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
+          totalProduct={totalProduct}
         />
       ) : (
         ""

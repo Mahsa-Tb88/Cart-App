@@ -8,9 +8,10 @@ export default function Pagination({
   category,
   currentPage,
   setCurrentPage,
+  totalProduct,
 }) {
   const { state, dispatch } = useCartContext();
-  const totalPage = Math.ceil(state.totalProduct.all / 6);
+  const totalPage = Math.ceil(totalProduct.all / 6);
   const [searchParams, setSearchParams] = useSearchParams();
   const prevClasses = [currentPage == 1 ? "disabled" : ""].join(" ");
   const nextClasses = [currentPage == totalPage ? "disabled" : ""].join(" ");
@@ -49,16 +50,38 @@ export default function Pagination({
   return (
     <div className=" my-5">
       <ul className="pagination paginate">
-        <NavLink className={prevClasses}>
-          <span className="page-link" aria-label="Previous">
+        <NavLink
+          className={prevClasses}
+          to={
+            `/shop?page=${parseInt(currentPage) - 1}` +
+            (search ? "&q=" + search : "") +
+            (category ? "&category=" + category : "")
+          }
+        >
+          <span
+            className="page-link"
+            aria-label="Previous"
+            onClick={() => handlePage(parseInt(currentPage) - 1)}
+          >
             <span aria-hidden="true">
               <FaAngleDoubleLeft />
             </span>
           </span>
         </NavLink>
         {pages}
-        <NavLink className={nextClasses}>
-          <span className="page-link" aria-label="Previous">
+        <NavLink
+          className={nextClasses}
+          to={
+            `/shop?page=${parseInt(currentPage) + 1}` +
+            (search ? "&q=" + search : "") +
+            (category ? "&category=" + category : "")
+          }
+        >
+          <span
+            className="page-link"
+            aria-label="next"
+            onClick={() => handlePage(parseInt(currentPage) + 1)}
+          >
             <span aria-hidden="true">
               <FaAngleDoubleRight />
             </span>

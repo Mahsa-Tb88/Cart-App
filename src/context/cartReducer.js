@@ -6,18 +6,14 @@ export function cartReducer(state, action) {
     case "setCategories":
       return { ...state, categories: payload };
     case "setLoadingError":
-      return { ...state, loadingError: payload };
+      return {
+        ...state,
+        loadingError: payload,
+      };
     case "setProducts":
       return {
         ...state,
-        products: payload.products,
-        totalProduct: payload.totalProduct,
+        products: payload,
       };
-    case "setCurrentPage":
-      return { ...state, currentPage: payload };
-    case "search":
-      return { ...state, search: payload };
-    case "setCategory":
-      return { ...state, category: payload };
   }
 }

@@ -7,10 +7,10 @@ const CartContext = createContext();
 
 function CartContextProvider({ children }) {
   useEffect(() => {
-    const timeOut = setTimeout(fetchCategories, 20);
+    const timeOut = setTimeout(fetchGetCategories, 20);
     return () => clearTimeout(timeOut);
   }, []);
-  async function fetchCategories() {
+  async function fetchGetCategories() {
     dispatch({ type: "setIsLoading", payload: true });
     const result = await getAllCategories();
     if (result.success) {
@@ -26,15 +26,9 @@ function CartContextProvider({ children }) {
   }
   const [state, dispatch] = useReducer(cartReducer, {
     products: [],
-    totalProduct: {
-      filtered: null,
-      all: null,
-    },
     categories: [],
     isLoading: false,
     loadingError: false,
-    search: "",
-    category: "",
   });
 
   return (
