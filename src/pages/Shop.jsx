@@ -8,89 +8,65 @@ import { useSearchParams } from "react-router-dom";
 import { getProducts } from "../utils/api";
 
 export default function Shop() {
-  console.log("shop");
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [search, setSearch] = useState(searchParams.get("q") || "");
-  const [category, setCategory] = useState(searchParams.get("category") || "");
+  const { state, dispatch } = useCartContext();
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
+  const [loadinErrorProducts, setLoadingErrorProducts] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProduct, setTotalProduct] = useState({
     filtered: null,
     all: null,
   });
-  const { state, dispatch } = useCartContext();
-
+  const [searchParams, setSearchParams] = useSearchParams("");
   useEffect(() => {
-    if (searchParams.get("q")) {
-      setSearch(searchParams.get("q"));
-    }
-    if (searchParams.get("category")) {
-      setCategory(searchParams.get("category"));
-    }
-
     const timeOut = setTimeout(fetchProducts, 20);
     return () => clearTimeout(timeOut);
   }, [searchParams.get("page")]);
 
   async function fetchProducts() {
-    searchParams.get("page")
-      ? setCurrentPage(searchParams.get("page"))
-      : setCurrentPage(1);
-    dispatch({ type: "setIsLoading", payload: true });
-    const result = await getProducts(
-      searchParams.get("page") || 1,
-      6,
-      search || "",
-      category || ""
-    );
+    setIsLoadingProducts(true);
+    setCurrentPage(searchParams.get("page") || 1);
+    const result = await getProducts(currentPage || 1, 6, search, category);
+    console.log(result);
     if (result.success) {
-      dispatch({ type: "setProducts", payload: result.body });
-      setTotalProduct(result.total);
-      dispatch({ type: "setLoadingError", payload: false });
-    } else {
-      dispatch({
-        type: "setLoadingError",
-        payload: { message: result.message, code: result.code },
+      setProducts(result.body);
+      setTotalProduct({
+        filtered: result.total.filtered,
+        all: result.total.all,
       });
+      setLoadingErrorProducts(false);
+    } else {
+      setLoadingErrorProducts({ message: result.message, code: result.code });
     }
-    dispatch({ type: "setIsLoading", payload: false });
+    setIsLoadingProducts(false);
   }
-
   return (
     <div className="container">
-      <Filter
-        search={search}
-        setSearch={setSearch}
-        category={category}
-        setCategory={setCategory}
-        setTotalProduct={setTotalProduct}
-      />
-      {state.isLoading ? (
+      <Filter />
+      {isLoadingProducts ? (
         <Loading />
-      ) : state.loadingError ? (
-        <LoadingError reload={fetchProducts} />
+      ) : loadinErrorProducts ? (
+        <LoadingError reload={fetchProducts} error={loadinErrorProducts}/>
       ) : (
         <div className="row">
-          {state.products.length == 0 ? (
-            <p className="fs-5 py-5">There is not any product</p>
-          ) : (
-            state.products.map((product) => (
+          {products.map((product) => {
+            return (
               <div className="col-3" key={product.id}>
-                <Cart key={product.id} product={product} />
+                <Cart product={product} key={product.id} />
               </div>
-            ))
-          )}
+            );
+          })}
+          <Pagination
+            totalProduct={totalProduct}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            search={search}
+            category={category}
+          />
+          )
         </div>
-      )}
-      {!state.products.length == 0 && totalProduct.all > 6 ? (
-        <Pagination
-          search={search}
-          category={category}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalProduct={totalProduct}
-        />
-      ) : (
-        ""
       )}
     </div>
   );

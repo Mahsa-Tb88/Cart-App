@@ -1,4 +1,4 @@
-const successRate = 0.94;
+const successRate = 0.44;
 
 async function getAllProducts() {
   await wait(1000);
@@ -43,7 +43,6 @@ export async function getProducts(
   });
   const start = (page - 1) * limit;
   const result = filteredProducts.slice(start, limit + start);
-
   return {
     success: true,
     body: result,

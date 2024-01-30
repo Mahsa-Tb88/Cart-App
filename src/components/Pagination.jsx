@@ -4,28 +4,18 @@ import { FaAngleDoubleRight } from "react-icons/fa";
 import { useCartContext } from "../context/CartContext";
 import { NavLink, useSearchParams } from "react-router-dom";
 export default function Pagination({
-  search,
-  category,
+  totalProduct,
   currentPage,
   setCurrentPage,
-  totalProduct,
+  search,
+  category,
 }) {
   const { state, dispatch } = useCartContext();
   const totalPage = Math.ceil(totalProduct.all / 6);
   const [searchParams, setSearchParams] = useSearchParams();
   const prevClasses = [currentPage == 1 ? "disabled" : ""].join(" ");
   const nextClasses = [currentPage == totalPage ? "disabled" : ""].join(" ");
-
-  useEffect(() => {
-    searchParams.get("page")
-      ? setCurrentPage(searchParams.get("page"))
-      : setCurrentPage(1);
-  }, []);
-
   let pages = [];
-  function handlePage(i) {
-    setCurrentPage(i);
-  }
   for (let i = 1; i <= totalPage; i++) {
     pages.push(
       <NavLink
@@ -36,17 +26,17 @@ export default function Pagination({
           (search ? "&q=" + search : "") +
           (category ? "&category=" + category : "")
         }
+        
       >
-        <span
-          className={"page-link " + (currentPage == i ? "active" : "")}
-          onClick={() => handlePage(i)}
-        >
+        <span className={"page-link " + (currentPage == i ? "active" : "")}>
           {i}
         </span>
       </NavLink>
     );
   }
-
+  function handlePage(i) {
+    setCurrentPage(i);
+  }
   return (
     <div className=" my-5">
       <ul className="pagination paginate">
@@ -61,7 +51,7 @@ export default function Pagination({
           <span
             className="page-link"
             aria-label="Previous"
-            onClick={() => handlePage(parseInt(currentPage) - 1)}
+            // onClick={() => handlePage(parseInt(currentPage) - 1)}
           >
             <span aria-hidden="true">
               <FaAngleDoubleLeft />
@@ -80,7 +70,7 @@ export default function Pagination({
           <span
             className="page-link"
             aria-label="next"
-            onClick={() => handlePage(parseInt(currentPage) + 1)}
+            // onClick={() => handlePage(parseInt(currentPage) + 1)}
           >
             <span aria-hidden="true">
               <FaAngleDoubleRight />
