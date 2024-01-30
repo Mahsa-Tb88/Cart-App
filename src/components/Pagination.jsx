@@ -26,7 +26,6 @@ export default function Pagination({
           (search ? "&q=" + search : "") +
           (category ? "&category=" + category : "")
         }
-        
       >
         <span className={"page-link " + (currentPage == i ? "active" : "")}>
           {i}
@@ -48,11 +47,7 @@ export default function Pagination({
             (category ? "&category=" + category : "")
           }
         >
-          <span
-            className="page-link"
-            aria-label="Previous"
-            // onClick={() => handlePage(parseInt(currentPage) - 1)}
-          >
+          <span className="page-link" aria-label="Previous">
             <span aria-hidden="true">
               <FaAngleDoubleLeft />
             </span>
@@ -67,11 +62,7 @@ export default function Pagination({
             (category ? "&category=" + category : "")
           }
         >
-          <span
-            className="page-link"
-            aria-label="next"
-            // onClick={() => handlePage(parseInt(currentPage) + 1)}
-          >
+          <span className="page-link" aria-label="next">
             <span aria-hidden="true">
               <FaAngleDoubleRight />
             </span>

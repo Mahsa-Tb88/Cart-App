@@ -6,11 +6,11 @@ const CartContext = createContext();
 
 function CartContextProvider({ children }) {
   useEffect(() => {
-    const timeOut = setTimeout(anitializationApp, 20);
+    const timeOut = setTimeout(initializeApp, 20);
     return () => clearTimeout(timeOut);
   }, []);
 
-  async function anitializationApp() {
+  async function initializeApp() {
     dispatch({ type: "setIsLoading", payload: true });
     const result = await getAllCategories();
     if (result.success) {

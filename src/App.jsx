@@ -7,6 +7,7 @@ import LoadingError from "./components/LoadingError";
 import { getAllCategories } from "./utils/api";
 export default function App() {
   const { state, dispatch } = useCartContext();
+  
   async function anitializationApp() {
     dispatch({ type: "setIsLoading", payload: true });
     const result = await getAllCategories();

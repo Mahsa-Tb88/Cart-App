@@ -21,6 +21,13 @@ export default function Shop() {
   });
   const [searchParams, setSearchParams] = useSearchParams("");
   useEffect(() => {
+    if (searchParams.get("q")) {
+      setSearch(searchParams.get("q"));
+    }
+    if (searchParams.get("category")) {
+      setCategory(searchParams.get("category"));
+    }
+    console.log("useEffect shop");
     const timeOut = setTimeout(fetchProducts, 20);
     return () => clearTimeout(timeOut);
   }, [searchParams.get("page")]);
@@ -28,7 +35,12 @@ export default function Shop() {
   async function fetchProducts() {
     setIsLoadingProducts(true);
     setCurrentPage(searchParams.get("page") || 1);
-    const result = await getProducts(currentPage || 1, 6, search, category);
+    const result = await getProducts(
+      searchParams.get("page") || 1,
+      6,
+      searchParams.get("q") || "",
+      searchParams.get("category") || ""
+    );
     console.log(result);
     if (result.success) {
       setProducts(result.body);
@@ -44,11 +56,17 @@ export default function Shop() {
   }
   return (
     <div className="container">
-      <Filter />
+      <Filter
+        search={search}
+        category={category}
+        setSearch={setSearch}
+        setCategory={setCategory}
+        fetchProducts={fetchProducts}
+      />
       {isLoadingProducts ? (
         <Loading />
       ) : loadinErrorProducts ? (
-        <LoadingError reload={fetchProducts} error={loadinErrorProducts}/>
+        <LoadingError reload={fetchProducts} error={loadinErrorProducts} />
       ) : (
         <div className="row">
           {products.map((product) => {
@@ -58,14 +76,19 @@ export default function Shop() {
               </div>
             );
           })}
-          <Pagination
-            totalProduct={totalProduct}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            search={search}
-            category={category}
-          />
-          )
+          {totalProduct.all > 6 ? (
+            <Pagination
+              totalProduct={totalProduct}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              search={search}
+              category={category}
+            />
+          ) : products.length == 0 ? (
+            <div className="fs-5 mt-5"> There is not any Product</div>
+          ) : (
+            ""
+          )}
         </div>
       )}
     </div>
