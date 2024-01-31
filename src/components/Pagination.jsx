@@ -33,9 +33,7 @@ export default function Pagination({
       </NavLink>
     );
   }
-  function handlePage(i) {
-    setCurrentPage(i);
-  }
+
   return (
     <div className=" my-5">
       <ul className="pagination paginate">

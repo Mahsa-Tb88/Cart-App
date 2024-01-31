@@ -30,6 +30,7 @@ export default function Filter({
       value = "";
     }
     setCategory(value);
+    setDelay(20);
     if (!value && !searchParams.get("q")) {
       setSearchParams({});
     } else if ((value, searchParams.get("q"))) {
@@ -42,6 +43,16 @@ export default function Filter({
   }
   function searchHandler(value) {
     setSearch(value);
+    setDelay(1000);
+    if (!value && !searchParams.get("category")) {
+      setSearchParams({});
+    } else if (value && searchParams.get("category")) {
+      setSearchParams({ q: value, category: category });
+    } else if (value && !searchParams.get("category")) {
+      setSearchParams({ q: value });
+    } else if (!value && searchParams.get("category")) {
+      setSearchParams({ category: searchParams.get("category") });
+    }
   }
   return (
     <div className="d-flex justify-content-around align-items-center pt-5 filter">
@@ -50,8 +61,9 @@ export default function Filter({
           className="search border-0 input border-secondary"
           placeholder="search..."
           onChange={(e) => searchHandler(e.target.value)}
+          value={searchParams.get("q") || ""}
         />
-        <FaTimes className="close-btn" />
+        <FaTimes className="close-btn" onClick={() => searchHandler("")} />
       </div>
 
       <select

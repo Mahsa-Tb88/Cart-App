@@ -26,7 +26,7 @@ function CartContextProvider({ children }) {
   }
   const [state, dispatch] = useReducer(cartReducer, {
     categories: [],
-    isLoading: false,
+    isLoading: true,
     loadingError: false,
   });
 
