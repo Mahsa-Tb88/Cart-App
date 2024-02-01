@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Filter from "../components/Filter";
-import { useCartContext } from "../context/CartContext";
 import Pagination from "../components/Pagination";
+import Cart from "../components/Cart";
 import Loading from "../components/Loading";
 import LoadingError from "../components/LoadingError";
 import { useSearchParams } from "react-router-dom";
 import { getProducts } from "../utils/api";
 
 export default function Shop() {
-  const { state, dispatch } = useCartContext();
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
   const [loadinErrorProducts, setLoadingErrorProducts] = useState(false);
   const [products, setProducts] = useState([]);
@@ -19,7 +18,11 @@ export default function Shop() {
     filtered: null,
     all: null,
   });
+  const [shoppingCart, setShoppingCart] = useState([]);
+
+  const [shopItem, setShopItem] = useState({ id: null, status: false });
   const [searchParams, setSearchParams] = useSearchParams("");
+
   useEffect(() => {
     if (searchParams.get("q")) {
       setSearch(searchParams.get("q"));
@@ -72,7 +75,12 @@ export default function Shop() {
           {products.map((product) => {
             return (
               <div className="col-3" key={product.id}>
-                <Cart product={product} key={product.id} />
+                <Cart
+                  product={product}
+                  key={product.id}
+                  shoppingCart={shoppingCart}
+                  setShoppingCart={setShoppingCart}
+                />
               </div>
             );
           })}
@@ -91,26 +99,6 @@ export default function Shop() {
           )}
         </div>
       )}
-    </div>
-  );
-}
-
-function Cart({ product }) {
-  return (
-    <div className="card my-4 ">
-      <img
-        className="card-img-top card-img pb-3"
-        src={product.image}
-        alt="Card image cap"
-      />
-      <div className="card-body border-top">
-        <h5 className="card-title ">{product.title}</h5>
-        <p className="cart-text  p-2  d-flex justify-content-between">
-          <span>Price:</span> <span>${product.price}</span>
-        </p>
-      </div>
-
-      <button className="btn btn-lg btn-primary">Add to Cart</button>
     </div>
   );
 }
