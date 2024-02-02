@@ -4,8 +4,9 @@ import Pagination from "../components/Pagination";
 import Cart from "../components/Cart";
 import Loading from "../components/Loading";
 import LoadingError from "../components/LoadingError";
-import { useSearchParams } from "react-router-dom";
+import { json, useSearchParams } from "react-router-dom";
 import { getProducts } from "../utils/api";
+import { useCartContext } from "../context/CartContext";
 
 export default function Shop() {
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
@@ -20,8 +21,8 @@ export default function Shop() {
   });
   const [shoppingCart, setShoppingCart] = useState([]);
 
-  const [shopItem, setShopItem] = useState({ id: null, status: false });
   const [searchParams, setSearchParams] = useSearchParams("");
+  const { state, dispatch } = useCartContext();
 
   useEffect(() => {
     if (searchParams.get("q")) {
@@ -30,10 +31,11 @@ export default function Shop() {
     if (searchParams.get("category")) {
       setCategory(searchParams.get("category"));
     }
-    console.log("useEffect shop");
     const timeOut = setTimeout(fetchProducts, 20);
     return () => clearTimeout(timeOut);
   }, [searchParams.get("page")]);
+
+
 
   async function fetchProducts() {
     setIsLoadingProducts(true);

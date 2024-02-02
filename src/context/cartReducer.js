@@ -7,5 +7,14 @@ export function cartReducer(state, action) {
       return { ...state, loadingError: payload };
     case "setIsLoading":
       return { ...state, isLoading: payload };
+    case "addToCart":
+      return {
+        ...state,
+        shoppingProducts: [...state.shoppingProducts, payload],
+      };
+    case "updateShoppingProducts":
+      return { ...state, shoppingProducts: payload };
+    case "showingShoppingCart":
+      return { ...state, isShowShoppingCart: payload };
   }
 }

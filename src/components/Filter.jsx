@@ -55,8 +55,8 @@ export default function Filter({
     }
   }
   return (
-    <div className="d-flex justify-content-around align-items-center pt-5 filter">
-      <div className="border border-1 px-1 rounded-2">
+    <div className="d-flex justify-content-around align-items-center  filter">
+      <div className="border border-1 px-1 rounded-2 search-field">
         <input
           className="search border-0 input border-secondary"
           placeholder="search..."

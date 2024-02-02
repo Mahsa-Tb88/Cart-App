@@ -6,6 +6,12 @@ const CartContext = createContext();
 
 function CartContextProvider({ children }) {
   useEffect(() => {
+    localStorage.shopping
+      ? dispatch({
+          type: "updateShoppingProducts",
+          payload: JSON.parse(localStorage.shopping),
+        })
+      : "";
     const timeOut = setTimeout(initializeApp, 20);
     return () => clearTimeout(timeOut);
   }, []);
@@ -26,6 +32,9 @@ function CartContextProvider({ children }) {
   }
   const [state, dispatch] = useReducer(cartReducer, {
     categories: [],
+    shoppingProducts: [],
+    totalPrice: 0,
+    isShowShoppingCart: false,
     isLoading: true,
     loadingError: false,
   });
