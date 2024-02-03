@@ -19,7 +19,7 @@ export default function Shop() {
     filtered: null,
     all: null,
   });
-  const [shoppingCart, setShoppingCart] = useState([]);
+  // const [shoppingCart, setShoppingCart] = useState([]);
 
   const [searchParams, setSearchParams] = useSearchParams("");
   const { state, dispatch } = useCartContext();
@@ -34,8 +34,6 @@ export default function Shop() {
     const timeOut = setTimeout(fetchProducts, 20);
     return () => clearTimeout(timeOut);
   }, [searchParams.get("page")]);
-
-
 
   async function fetchProducts() {
     setIsLoadingProducts(true);
@@ -77,12 +75,7 @@ export default function Shop() {
           {products.map((product) => {
             return (
               <div className="col-3" key={product.id}>
-                <Cart
-                  product={product}
-                  key={product.id}
-                  shoppingCart={shoppingCart}
-                  setShoppingCart={setShoppingCart}
-                />
+                <Cart product={product} key={product.id} />
               </div>
             );
           })}

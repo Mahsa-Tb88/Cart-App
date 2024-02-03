@@ -18,12 +18,15 @@ export default function ShoppingCart() {
         />
       </div>
       <div className="p-3">
-      <Link to="cart" className="linkShoppingPage ">Show Shopping Page</Link>
+        <div className="title d-flex justify-content-between align-items-center  p-2 rounded-2  mb-3">
+          <Link to="cart" className="linkShoppingPage ">
+            Show Shopping Cart
+          </Link>
+          <p className=" m-0">${state.totalPrice}</p>
+        </div>
 
-      <ListOfShopping />
+        <ListOfShopping />
       </div>
-
-    
     </div>
   );
 }

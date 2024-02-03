@@ -3,21 +3,26 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
 import { useCartContext } from "../context/CartContext";
-function Cart({ product, shoppingCart, setShoppingCart }) {
+function Cart({ product }) {
   const { state, dispatch } = useCartContext();
 
-  function addToCartHandler(id) {
-    const selectedItem = shoppingCart.find((c) => c.id == id);
+  function addToCartHandler(product) {
+    const selectedItem = state.shoppingProducts.find(
+      (c) => c.product.id == product.id
+    );
     if (!selectedItem) {
-      console.log(selectedItem);
       dispatch({
         type: "addToCart",
-        payload: { id, numOfItem: 1, status: false },
+        payload: {
+          product,
+          numOfItem: 1,
+          status: false,
+        },
       });
 
       localStorage.shopping = JSON.stringify([
         ...state.shoppingProducts,
-        { id, numOfItem: 1, status: false },
+        { product, numOfItem: 1, status: false },
       ]);
     }
   }
@@ -31,21 +36,17 @@ function Cart({ product, shoppingCart, setShoppingCart }) {
       />
       <div className="card-body border-top">
         <h5 className="card-title ">{product.title}</h5>
-        <p className="cart-text  p-2  d-flex justify-content-between">
-          <span>Price:</span> <span>${product.price}</span>
-        </p>
       </div>
+      <p className="cart-text  p-2  d-flex justify-content-between">
+        <span>Price:</span> <span>${product.price}</span>
+      </p>
 
-      {state.shoppingProducts.find((c) => c.id == product.id) ? (
-        <AddtoCart
-          productId={product.id}
-          shoppingCart={shoppingCart}
-          setShoppingCart={setShoppingCart}
-        />
+      {state.shoppingProducts.find((c) => c.product.id == product.id) ? (
+        <AddtoCart productId={product.id} />
       ) : (
         <button
           className="btnAddToCart"
-          onClick={() => addToCartHandler(product.id)}
+          onClick={() => addToCartHandler(product)}
         >
           <span>Add to Cart</span>
         </button>
@@ -58,22 +59,25 @@ export default Cart;
 
 function AddtoCart({ productId }) {
   const { state, dispatch } = useCartContext();
-  const selectedCart = state.shoppingProducts.find((c) => c.id == productId);
+  const selectedCart = state.shoppingProducts.find(
+    (c) => c.product.id == productId
+  );
 
   function removeItem(id) {
     const filteredShoppingCart = state.shoppingProducts.filter(
-      (c) => c.id != id
+      (c) => c.product.id != id
     );
-    console.log(filteredShoppingCart);
     dispatch({ type: "updateShoppingProducts", payload: filteredShoppingCart });
     localStorage.shopping = JSON.stringify(filteredShoppingCart);
   }
 
   function decNumOfItem(id) {
-    const filteredShoppingCart = state.shoppingProducts.find((c) => c.id == id);
+    const filteredShoppingCart = state.shoppingProducts.find(
+      (c) => c.product.id == id
+    );
     if (filteredShoppingCart.numOfItem < 2) {
       const filteredShoppingCart = state.shoppingProducts.filter(
-        (c) => c.id != id
+        (c) => c.product.id != id
       );
       localStorage.shopping = JSON.stringify(filteredShoppingCart);
       dispatch({
@@ -81,7 +85,9 @@ function AddtoCart({ productId }) {
         payload: filteredShoppingCart,
       });
     } else {
-      const findIndex = state.shoppingProducts.findIndex((c) => c.id == id);
+      const findIndex = state.shoppingProducts.findIndex(
+        (c) => c.product.id == id
+      );
       const newfilterShoppingCart = { ...state.shoppingProducts[findIndex] };
       newfilterShoppingCart.numOfItem--;
       const newShoppingCart = [...state.shoppingProducts];
@@ -95,7 +101,9 @@ function AddtoCart({ productId }) {
   }
 
   function incNumOfItem(id) {
-    const findIndex = state.shoppingProducts.findIndex((c) => c.id == id);
+    const findIndex = state.shoppingProducts.findIndex(
+      (c) => c.product.id == id
+    );
     const newfilterShoppingCart = { ...state.shoppingProducts[findIndex] };
     newfilterShoppingCart.numOfItem++;
     const newShoppingCart = [...state.shoppingProducts];

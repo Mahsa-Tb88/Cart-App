@@ -10,10 +10,15 @@ export function cartReducer(state, action) {
     case "addToCart":
       return {
         ...state,
+        totalPrice: state.totalPrice + payload.product.price,
         shoppingProducts: [...state.shoppingProducts, payload],
       };
     case "updateShoppingProducts":
-      return { ...state, shoppingProducts: payload };
+      const total = payload.reduce(
+        (t, c) => t + c.product.price * c.numOfItem,
+        0
+      );
+      return { ...state, totalPrice: total, shoppingProducts: payload };
     case "showingShoppingCart":
       return { ...state, isShowShoppingCart: payload };
   }

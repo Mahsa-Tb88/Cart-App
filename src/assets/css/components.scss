@@ -1,4 +1,11 @@
 .app {
+  .link {
+    text-decoration: none;
+    color: #000;
+  }
+  .link:hover {
+    color: #5151ff;
+  }
   .home {
     padding-top: 100px;
     height: 100vh;
@@ -7,6 +14,7 @@
     padding-top: 100px;
     height: 100vh;
   }
+
   position: relative;
   .header {
     box-shadow: 0 1px 2px 1px #0003;
@@ -58,22 +66,31 @@
     }
   }
   .shapCart {
-    width: 500px;
+    width: 300px;
   }
   .tableShop {
     position: absolute;
     top: 0;
     bottom: 0;
     right: 0;
-    width: 500px;
+    width: 400px;
     z-index: 20;
     background-color: #fff;
 
     .header-cart {
       background-color: #e5e5e5;
     }
+    .title {
+      color: #5151ff;
+      border: 1px solid #5151ff;
+    }
+    .title:hover {
+      background-color: #5151ff;
+      color: #fff !important;
+    }
     .linkShoppingPage {
       text-decoration: none;
+      color: inherit;
     }
   }
 
@@ -189,6 +206,173 @@
     }
   }
   .shoppingCartPage {
-    margin-top: 120px;
+    padding-top: 100px;
+    height: 100vh;
+    .shoping-cart-img {
+      width: 70px;
+      height: 70px;
+    }
+    .table-row {
+      vertical-align: middle;
+    }
+    .btn-trash {
+      color: rgb(249, 88, 88);
+      border: 1px solid rgb(249, 88, 88);
+      padding: 4px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .btn-trash:hover {
+      background-color: rgb(249, 88, 88);
+      color: #fff;
+    }
+    .btn-minus {
+      background-color: rgb(249, 88, 88);
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2px;
+      font-size: 17px;
+      color: #fff;
+      cursor: pointer;
+    }
+    .btn-minus:hover {
+      background-color: rgb(238, 40, 40);
+    }
+    .btn-plus {
+      background-color: rgb(36, 180, 36);
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2px;
+      font-size: 17px;
+      color: #fff;
+      cursor: pointer;
+    }
+    .btn-plus:hover {
+      background-color: rgb(31, 128, 31);
+    }
+  }
+  .listOfShopping {
+    .img {
+      width: 50px;
+      height: 50px;
+    }
+    .title-list {
+      font-size: 12px;
+      margin-left: 10px;
+    }
+    .btn-trash {
+      color: rgb(249, 88, 88);
+      border: 1px solid rgb(249, 88, 88);
+      padding: 4px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .btn-trash:hover {
+      background-color: rgb(249, 88, 88);
+      color: #fff;
+    }
+    .btn-minus {
+      background-color: rgb(249, 88, 88);
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2px;
+      font-size: 15px;
+      color: #fff;
+      cursor: pointer;
+    }
+    .btn-minus:hover {
+      background-color: rgb(238, 40, 40);
+    }
+    .btn-plus {
+      background-color: rgb(36, 180, 36);
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2px;
+      font-size: 15px;
+      color: #fff;
+      cursor: pointer;
+    }
+    .btn-plus:hover {
+      background-color: rgb(31, 128, 31);
+    }
+    .operation-list {
+      width: 30%;
+    }
+  }
+  .product-page {
+    padding: 70px 30px;
+    border: 2px solid rgb(234, 233, 233);
+    border-radius: 8px;
+    margin-top: 100px;
+    height: 100%;
+    background-color: #fff;
+    .btnAddToCart {
+      background-color: #0d6efd;
+      padding: 7px 20px;
+      border-radius: 5px;
+      color: #fff;
+      border: none;
+    }
+    .btnAddToCart:hover{
+      background-color: #0959d1;
+
+    }
+    .product-page-img {
+      width: 500px;
+      height: 500px;
+      margin-top: 30px;
+    }
+    .product-page-info {
+      width: 50%;
+    }
+    .btn-trash {
+      color: rgb(249, 88, 88);
+      border: 1px solid rgb(249, 88, 88);
+      padding: 4px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 25px;
+    }
+    .btn-trash:hover {
+      background-color: rgb(249, 88, 88);
+      color: #fff;
+    }
+    .btn-minus {
+      background-color: rgb(249, 88, 88);
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2px;
+      font-size: 25px;
+      color: #fff;
+      cursor: pointer;
+    }
+    .btn-minus:hover {
+      background-color: rgb(238, 40, 40);
+    }
+    .btn-plus {
+      background-color: rgb(36, 180, 36);
+      border-radius: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2px;
+      font-size: 25px;
+      color: #fff;
+      cursor: pointer;
+    }
+    .btn-plus:hover {
+      background-color: rgb(31, 128, 31);
+    }
   }
 }
