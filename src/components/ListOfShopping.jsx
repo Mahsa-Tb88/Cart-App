@@ -3,6 +3,7 @@ import { useCartContext } from "../context/CartContext";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 export default function ListOfShopping() {
   const { state, dispatch } = useCartContext();
 
@@ -90,10 +91,18 @@ export default function ListOfShopping() {
                 </span>
               </div>
             </div>
-            <div className="title-list">{p.product.title}</div>
-            <div>
-              <img src={p.product.image} className="img" />
-            </div>
+            <Link
+              to={"/product/" + `${p.product.id}`}
+              onClick={() =>
+                dispatch({ type: "showingShoppingCart", payload: false })
+              }
+              className="d-flex justify-content-between align-items-center link info"
+            >
+              <div className="title-list">{p.product.title}</div>
+              <div>
+                <img src={p.product.image} className="img" />
+              </div>
+            </Link>
           </div>
         );
       })}

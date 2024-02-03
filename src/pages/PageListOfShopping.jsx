@@ -6,9 +6,9 @@ import { FaPlus } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 export default function PageListOfShopping() {
   const { state, dispatch } = useCartContext();
-  useEffect(() => {
-    dispatch({ type: "showingShoppingCart", payload: false });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({ type: "showingShoppingCart", payload: false });
+  // }, []);
   function removeItem(id) {
     const filteredShoppingCart = state.shoppingProducts.filter(
       (c) => c.product.id != id

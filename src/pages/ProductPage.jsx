@@ -4,25 +4,23 @@ import { useParams } from "react-router-dom";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
+import NotFound from "./NotFound";
+
 export default function ProductPage() {
   const { state, dispatch } = useCartContext();
   const [lodadingProduct, setLoadingProduct] = useState(false);
   const params = useParams();
   const id = params.id;
-  console.log(state.shoppingProducts);
   const initialProduct = state.shoppingProducts.find((p) => p.product.id == id);
-  console.log(initialProduct);
 
   const [selectedProduct, setSelectedProduct] = useState(null);
 
   useEffect(() => {
     const products = JSON.parse(localStorage.products);
     const filterProduct = products.find((p) => p.id == id);
-    console.log(filterProduct);
     setSelectedProduct(filterProduct);
     setLoadingProduct(true);
   }, [id]);
-  console.log("selectedProduct....", selectedProduct);
   function addToCartHandler(id) {
     const selectedItem = state.shoppingProducts.find((c) => c.product.id == id);
     if (!selectedItem) {
@@ -92,6 +90,13 @@ export default function ProductPage() {
       type: "updateShoppingProducts",
       payload: newShoppingCart,
     });
+  }
+  if (!selectedProduct) {
+    return (
+      <div>
+        <NotFound />
+      </div>
+    );
   }
   return (
     <div className=" ">

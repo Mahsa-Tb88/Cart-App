@@ -44,7 +44,6 @@ export default function Shop() {
       searchParams.get("q") || "",
       searchParams.get("category") || ""
     );
-    console.log(result);
     if (result.success) {
       setProducts(result.body);
       setTotalProduct({

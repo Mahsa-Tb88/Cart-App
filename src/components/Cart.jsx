@@ -3,6 +3,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
 import { useCartContext } from "../context/CartContext";
+import { Link } from "react-router-dom";
 function Cart({ product }) {
   const { state, dispatch } = useCartContext();
 
@@ -28,15 +29,19 @@ function Cart({ product }) {
   }
 
   return (
-    <div className="card my-4 cart">
+    <div className="card my-4 ">
       <img
         className="card-img-top card-img pb-3"
         src={product.image}
         alt="Card image cap"
       />
-      <div className="card-body border-top">
+      <Link
+        to={"/product/" + `${product.id}`}
+        className="card-body border-top link"
+      >
         <h5 className="card-title ">{product.title}</h5>
-      </div>
+      </Link>
+
       <p className="cart-text  p-2  d-flex justify-content-between">
         <span>Price:</span> <span>${product.price}</span>
       </p>

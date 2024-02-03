@@ -23,6 +23,7 @@ export default function App() {
     }
     dispatch({ type: "setIsLoading", payload: false });
   }
+  
 
   return (
     <div className="app">
