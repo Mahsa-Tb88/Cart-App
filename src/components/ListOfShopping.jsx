@@ -3,9 +3,14 @@ import { useCartContext } from "../context/CartContext";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function ListOfShopping() {
   const { state, dispatch } = useCartContext();
+  const navigate = useNavigate();
+  function btnHandler(linkId) {
+    dispatch({ type: "showingShoppingCart", payload: false });
+    navigate("/product/" + `${linkId}`);
+  }
 
   function removeItem(id) {
     const filteredShoppingCart = state.shoppingProducts.filter(
@@ -94,18 +99,15 @@ export default function ListOfShopping() {
                 </span>
               </div>
             </div>
-            <Link
-              to={"/product/" + `${p.product.id}`}
-              onClick={() =>
-                dispatch({ type: "showingShoppingCart", payload: false })
-              }
-              className="d-flex justify-content-between align-items-center link info"
+            <button
+              onClick={() => btnHandler(p.product.id)}
+              className="d-flex justify-content-between align-items-center info"
             >
               <div className="title-list">{p.product.title}</div>
               <div>
                 <img src={p.product.image} className="img" />
               </div>
-            </Link>
+            </button>
           </div>
         );
       })}

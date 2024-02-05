@@ -3,15 +3,16 @@ import PageListOfShopping from "../pages/PageListOfShopping";
 import ListOfShopping from "./ListOfShopping";
 import { IoCloseCircle } from "react-icons/io5";
 import { useCartContext } from "../context/CartContext";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 export default function ShoppingCart() {
   const { state, dispatch } = useCartContext();
-  const className = [
-    "tableShop",
-    state.showingShoppingCart ? "unhidden" : "hidden",
-  ].join(" ");
+  const addClass=["tableShop", state.isShowShoppingCart ? "unhidden" : "hidden"].join(" ")
   return (
-    <div className={className}>
+    <div
+      className={
+        addClass
+      }
+    >
       <div className="d-flex justify-content-between align-items-center p-2 header-cart">
         <h2>Shopping Cart</h2>
         <IoCloseCircle

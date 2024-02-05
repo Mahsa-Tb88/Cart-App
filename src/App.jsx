@@ -24,6 +24,12 @@ export default function App() {
     dispatch({ type: "setIsLoading", payload: false });
   }
 
+  function closeHandler(value) {
+    if (value) {
+      dispatch({ type: "showingShoppingCart", payload: false });
+    }
+  }
+
   return (
     <div className="app">
       {state.isLoading ? (
@@ -32,9 +38,14 @@ export default function App() {
         <LoadingError reload={anitializationApp} error={state.loadingError} />
       ) : (
         <div>
-          <div className={state.isShowShoppingCart ? "overlay" : ""}></div>
+          <div
+            className={state.isShowShoppingCart ? "overlay" : ""}
+            onClick={(e) => closeHandler(e.target)}
+          ></div>
           <div>
-            <div>{state.isShowShoppingCart ? <ShoppingCart /> : ""}</div>
+            <div>
+              <ShoppingCart />
+            </div>
             <header className="header">
               <div className="d-flex justify-content-between align-items-center  container">
                 <div className="d-flex justify-content-center align-items-center py-3 navbar">

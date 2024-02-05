@@ -29,7 +29,7 @@ function Cart({ product }) {
   }
 
   return (
-    <div className="card my-4 ">
+    <div className="card  d-flex flex-column justify-content-center align-items-center">
       <img
         className="card-img-top card-img pb-3"
         src={product.image}
@@ -43,14 +43,14 @@ function Cart({ product }) {
       </Link>
 
       <p className="cart-text  p-2  d-flex justify-content-between">
-        <span>Price:</span> <span>${product.price}</span>
+        <span className="me-3">Price:</span> <span className="">${product.price}</span>
       </p>
 
       {state.shoppingProducts.find((c) => c.product.id == product.id) ? (
         <AddtoCart productId={product.id} />
       ) : (
         <button
-          className="btnAddToCart"
+          className="btnAddToCart mt-auto px-2 py-3"
           onClick={() => addToCartHandler(product)}
         >
           <span>Add to Cart</span>
@@ -120,7 +120,7 @@ function AddtoCart({ productId }) {
     });
   }
   return (
-    <div className="px-2 d-flex justify-content-between align-items-center btn-add">
+    <div className="px-2 py-3 d-flex justify-content-between align-items-center mt-auto btn-add">
       <div
         className="btn-trash d-flex justify-content-center align-items-center"
         onClick={() => removeItem(productId)}

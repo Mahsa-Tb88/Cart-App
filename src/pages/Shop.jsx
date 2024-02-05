@@ -73,7 +73,7 @@ export default function Shop() {
         <div className="row">
           {products.map((product) => {
             return (
-              <div className="col-3" key={product.id}>
+              <div className="col-3 my-4" key={product.id}>
                 <Cart product={product} key={product.id} />
               </div>
             );
