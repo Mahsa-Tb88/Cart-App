@@ -1,17 +1,20 @@
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { cartReducer } from "./cartReducer";
-import { getAllCategories, getProducts } from "../utils/api";
+import { getAllCategories } from "../utils/api";
 
 const CartContext = createContext();
 
 function CartContextProvider({ children }) {
-  useEffect(() => {
+  function loadedFromLocalStorage() {
     localStorage.shopping
       ? dispatch({
           type: "updateShoppingProducts",
           payload: JSON.parse(localStorage.shopping),
         })
       : "";
+  }
+  useEffect(() => {
+    loadedFromLocalStorage;
     const timeOut = setTimeout(initializeApp, 20);
     return () => clearTimeout(timeOut);
   }, []);
@@ -38,6 +41,8 @@ function CartContextProvider({ children }) {
     isLoading: true,
     loadingError: false,
   });
+
+  window.addEventListener("storage", loadedFromLocalStorage);
 
   return (
     <CartContext.Provider value={{ state, dispatch }}>

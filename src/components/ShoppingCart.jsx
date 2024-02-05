@@ -6,9 +6,12 @@ import { useCartContext } from "../context/CartContext";
 import { Link, useParams } from "react-router-dom";
 export default function ShoppingCart() {
   const { state, dispatch } = useCartContext();
-  const params = useParams();
+  const className = [
+    "tableShop",
+    state.showingShoppingCart ? "unhidden" : "hidden",
+  ].join(" ");
   return (
-    <div className="tableShop">
+    <div className={className}>
       <div className="d-flex justify-content-between align-items-center p-2 header-cart">
         <h2>Shopping Cart</h2>
         <IoCloseCircle

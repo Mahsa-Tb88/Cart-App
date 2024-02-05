@@ -23,7 +23,6 @@ export default function App() {
     }
     dispatch({ type: "setIsLoading", payload: false });
   }
-  
 
   return (
     <div className="app">
@@ -35,9 +34,7 @@ export default function App() {
         <div>
           <div className={state.isShowShoppingCart ? "overlay" : ""}></div>
           <div>
-            <div className="shapCart">
-              {state.isShowShoppingCart ? <ShoppingCart /> : ""}
-            </div>
+            <div>{state.isShowShoppingCart ? <ShoppingCart /> : ""}</div>
             <header className="header">
               <div className="d-flex justify-content-between align-items-center  container">
                 <div className="d-flex justify-content-center align-items-center py-3 navbar">

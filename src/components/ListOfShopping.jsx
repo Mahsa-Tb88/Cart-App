@@ -58,6 +58,9 @@ export default function ListOfShopping() {
       payload: newShoppingCart,
     });
   }
+  if (!state.shoppingProducts.length) {
+    return <p className="text-center fs-4">Your card is empty</p>;
+  }
   return (
     <div className="listOfShopping">
       {state.shoppingProducts.map((p, index) => {

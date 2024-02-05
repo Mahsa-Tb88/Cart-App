@@ -1,4 +1,6 @@
 .app {
+  position: relative;
+
   .link {
     text-decoration: none;
     color: #000;
@@ -19,7 +21,6 @@
     height: 100vh;
   }
 
-  position: relative;
   .header {
     box-shadow: 0 1px 2px 1px #0003;
     z-index: 10;
@@ -69,18 +70,22 @@
       border-radius: 8px;
     }
   }
-  .shapCart {
-    width: 300px;
-  }
+
   .tableShop {
     position: absolute;
     top: 0;
     bottom: 0;
-    right: 0;
+    transition: all 0.8s ease-in-out;
     width: 400px;
+
+    .hidden {
+      right: -500px;
+    }
+    .unhidden {
+      right: 0;
+    }
     z-index: 20;
     background-color: #fff;
-
     .header-cart {
       background-color: #e5e5e5;
     }
@@ -144,6 +149,9 @@
       align-items: center;
       color: #fff;
       border: none;
+    }
+    .card-title {
+      font-size: 18px;
     }
     .btn-add {
       width: 100%;
